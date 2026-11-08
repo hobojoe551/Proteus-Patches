@@ -1,0 +1,387 @@
+// Scoped WhatsApp entries — thin wrappers over universal implementations
+// (no app-specific fingerprints were written; no WhatsApp APK was decompiled
+// in this build environment). Unverified on device.
+// WhatsApp ships as XAPK split bundles (ApkFileType.XAPK).
+package app.template.patches.whatsapp
+
+import app.morphe.patcher.patch.bytecodePatch
+import app.template.patches.shared.Constants.WHATSAPP_COMPATIBILITY
+import app.template.patches.shared.logUniversal
+import app.template.patches.shared.manifest.removeDangerousPermissionsPatch
+import app.template.patches.shared.media.disableAutoplayPatch
+import app.template.patches.shared.misc.externalBrowserPatch
+import app.template.patches.shared.misc.stripLoggingPatch
+import app.template.patches.shared.privacy.blockAdsSdksPatch
+import app.template.patches.shared.privacy.blockAnalyticsSdksPatch
+import app.template.patches.shared.privacy.blockScreenCapturePatch
+import app.template.patches.shared.privacy.emptyTelephonyIdsPatch
+import app.template.patches.shared.privacy.universalAllowScreenCapturePatch
+
+@Suppress("unused")
+val whatsappBlockAnalyticsSdksPatch = bytecodePatch(
+    name = "WhatsApp: Block analytics & tracking SDKs",
+    description = """
+        Blocks WhatsApp's analytics & tracking SDKs (Firebase Analytics,
+        Meta/Graph API event reporting, Adjust, AppEvents and similar) using
+        the same universal heuristic as 'Block analytics & tracking SDKs'.
+
+        Applies to com.whatsapp only. Heuristic; obfuscated or
+        reflection-based reporting is not covered. Unverified on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+    dependsOn(blockAnalyticsSdksPatch)
+
+    execute {
+        logUniversal("WhatsApp: enabling universal heuristic analytics blocking.")
+    }
+}
+
+@Suppress("unused")
+val whatsappBlockAdsSdksPatch = bytecodePatch(
+    name = "WhatsApp: Block ads & ad SDKs",
+    description = """
+        Blocks WhatsApp ad SDK call sites (AdMob, Unity Ads, Audience Network
+        and similar) using the same universal heuristic as 'Block ads & ad
+        SDKs'. Relevant to business messaging and click-to-chat surfaces.
+
+        Applies to com.whatsapp only. Heuristic; obfuscated or reflection-based
+        ad loading is not covered. Unverified on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+    dependsOn(blockAdsSdksPatch)
+
+    execute {
+        logUniversal("WhatsApp: enabling universal heuristic ad-blocking.")
+    }
+}
+
+@Suppress("unused")
+val whatsappPreferExternalBrowserPatch = bytecodePatch(
+    name = "WhatsApp: Prefer external browser over Custom Tabs",
+    description = """
+        Opens links in the default external browser instead of an in-app Custom
+        Tab, using the same rewrite as the universal 'Prefer external browser
+        over Custom Tabs' patch.
+
+        Applies to com.whatsapp only. Covers Custom Tabs /
+        CustomTabsIntent call sites only. Unverified on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+    dependsOn(externalBrowserPatch)
+
+    execute {
+        logUniversal("WhatsApp: enabling external browser over Custom Tabs.")
+    }
+}
+
+@Suppress("unused")
+val whatsappAllowScreenCapturePatch = bytecodePatch(
+    name = "WhatsApp: Allow screenshots & screen recording",
+    description = """
+        Attempts to remove FLAG_SECURE / secure SurfaceView settings in
+        WhatsApp so screenshots and screen recording can work in chat and
+        status screens, using the same universal heuristic as 'Allow
+        screenshots & screen recording'.
+
+        Applies to com.whatsapp only. Some screens (chat lock, payment, media
+        viewer) may still block capture independently. Unverified on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+    dependsOn(universalAllowScreenCapturePatch)
+
+    execute {
+        logUniversal("WhatsApp: enabling universal screen-capture allowance.")
+    }
+}
+
+@Suppress("unused")
+val whatsappRemoveDangerousPermissionsPatch = bytecodePatch(
+    name = "WhatsApp: Remove dangerous permissions",
+    description = """
+        Removes dangerous permission declarations from WhatsApp's manifest
+        using the same universal heuristic as 'Remove dangerous permissions'.
+
+        Applies to com.whatsapp only. Review the keep list before enabling —
+        removing Camera, Microphone, Location or Storage declarations may
+        disable features that depend on them. Unverified on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+    dependsOn(removeDangerousPermissionsPatch)
+
+    execute {
+        logUniversal("WhatsApp: enabling universal dangerous-permission removal.")
+    }
+}
+
+@Suppress("unused")
+val whatsappDisableAutoplayPatch = bytecodePatch(
+    name = "WhatsApp: Disable video autoplay (Status)",
+    description = """
+        Stops video autoplay in WhatsApp Status and media viewers (ExoPlayer/
+        Media3) using the same heuristic as 'Disable video autoplay
+        (ExoPlayer/Media3)'.
+
+        Applies to com.whatsapp only. Heuristic; see the universal entry for
+        limitations. Unverified on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+    dependsOn(disableAutoplayPatch)
+
+    execute {
+        logUniversal("WhatsApp: enabling ExoPlayer autoplay block.")
+    }
+}
+
+@Suppress("unused")
+val whatsappKeepDeletedMessagesPatch = bytecodePatch(
+    name = "WhatsApp: Keep deleted messages",
+    description = """
+        Shows messages that were deleted for everyone. May need a fingerprint
+        update after WhatsApp upgrades.
+
+        Requires app-specific bytecode analysis of the message-deletion handler
+        — no WhatsApp APK was decompiled in this build environment. Unverified
+        on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+
+    execute {
+        logUniversal(
+            "WhatsApp: keep deleted messages — awaiting app-specific bytecode " +
+                "analysis (no APK decompiled)."
+        )
+    }
+}
+
+@Suppress("unused")
+val whatsappReadReceiptsPatch = bytecodePatch(
+    name = "WhatsApp: Read receipts (no blue ticks)",
+    description = """
+        Prevents WhatsApp from sending read receipts (blue ticks) when enabled.
+
+        Requires app-specific bytecode analysis of the read-receipt call sites
+        — no WhatsApp APK was decompiled in this build environment. Unverified
+        on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+
+    execute {
+        logUniversal(
+            "WhatsApp: disable read receipts — awaiting app-specific bytecode " +
+                "analysis (no APK decompiled)."
+        )
+    }
+}
+
+@Suppress("unused")
+val whatsappTypingIndicatorPatch = bytecodePatch(
+    name = "WhatsApp: Typing indicator (hide when typing)",
+    description = """
+        Prevents others from seeing when you are typing.
+
+        Requires app-specific bytecode analysis of the typing-indicator call
+        sites — no WhatsApp APK was decompiled in this build environment.
+        Unverified on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+
+    execute {
+        logUniversal(
+            "WhatsApp: hide typing indicator — awaiting app-specific bytecode " +
+                "analysis (no APK decompiled)."
+        )
+    }
+}
+
+@Suppress("unused")
+val whatsappUsageDataPatch = bytecodePatch(
+    name = "WhatsApp: Limit usage data (diagnostics & analytics)",
+    description = """
+        Limits diagnostic and analytics data WhatsApp sends, using the same
+        universal heuristic as 'Block analytics & tracking SDKs'.
+
+        Applies to com.whatsapp only. Heuristic; obfuscated or reflection-based
+        reporting is not covered. Unverified on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+    dependsOn(blockAnalyticsSdksPatch)
+
+    execute {
+        logUniversal("WhatsApp: enabling universal analytics blocking for usage data.")
+    }
+}
+
+@Suppress("unused")
+val whatsappViewOnceMediaPatch = bytecodePatch(
+    name = "WhatsApp: View once media (allow reopen & save)",
+    description = """
+        Allows reopening and saving view-once photos and videos.
+
+        Requires app-specific bytecode analysis of the view-once media handler
+        — no WhatsApp APK was decompiled in this build environment. Unverified
+        on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+
+    execute {
+        logUniversal(
+            "WhatsApp: view once media — awaiting app-specific bytecode " +
+                "analysis (no APK decompiled)."
+        )
+    }
+}
+
+@Suppress("unused")
+val whatsappAppIconPatch = bytecodePatch(
+    name = "WhatsApp: App icon (classic or premium style)",
+    description = """
+        Replaces the WhatsApp launcher icon with a classic or premium-style
+        icon.
+
+        Requires app-specific resource analysis of the launcher-icon drawable —
+        no WhatsApp APK was decompiled in this build environment. Unverified on
+        device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+
+    execute {
+        logUniversal(
+            "WhatsApp: app icon replacement — awaiting app-specific resource " +
+                "analysis (no APK decompiled)."
+        )
+    }
+}
+
+@Suppress("unused")
+val whatsappModsSettingsEntryPatch = bytecodePatch(
+    name = "WhatsApp: Mods settings entry",
+    description = """
+        Reserves a MightyMich row in Settings. Full dialog wiring needs the
+        settings-list fingerprint for this WhatsApp build.
+
+        Requires app-specific bytecode analysis of the Settings screen — no
+        WhatsApp APK was decompiled in this build environment. Unverified on
+        device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+
+    execute {
+        logUniversal(
+            "WhatsApp: mods settings entry — awaiting app-specific bytecode " +
+                "analysis (no APK decompiled)."
+        )
+    }
+}
+
+@Suppress("unused")
+val whatsappModsSettingsResourcesPatch = bytecodePatch(
+    name = "WhatsApp: Mods settings resources",
+    description = """
+        Adds English strings for the MightyMich section in WhatsApp Settings.
+
+        Requires app-specific resource analysis of the settings string table —
+        no WhatsApp APK was decompiled in this build environment. Unverified on
+        device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+
+    execute {
+        logUniversal(
+            "WhatsApp: mods settings resources — awaiting app-specific resource " +
+                "analysis (no APK decompiled)."
+        )
+    }
+}
+
+@Suppress("unused")
+val whatsappStripLoggingPatch = bytecodePatch(
+    name = "WhatsApp: Strip logging (android.util.Log)",
+    description = """
+        Removes all android.util.Log calls from WhatsApp, so logcat cannot leak
+        diagnostic or analytics data, using the same universal heuristic as
+        'Strip logging (android.util.Log)'.
+
+        Applies to com.whatsapp only. Heuristic; obfuscated or reflection-based
+        logging is not covered. Unverified on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+    dependsOn(stripLoggingPatch)
+
+    execute {
+        logUniversal("WhatsApp: enabling universal logging strip.")
+    }
+}
+
+@Suppress("unused")
+val whatsappBlockScreenCapturePatch = bytecodePatch(
+    name = "WhatsApp: Block screenshots & screen recording",
+    description = """
+        Forces FLAG_SECURE on every WhatsApp Activity window and flips
+        SurfaceView.setSecure(false) to true, using the same universal heuristic
+        as 'Block screenshots & screen recording'.
+
+        Applies to com.whatsapp only. Do not combine with 'WhatsApp: Allow
+        screenshots & screen recording' — they have opposing goals. Unverified
+        on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+    dependsOn(blockScreenCapturePatch)
+
+    execute {
+        logUniversal("WhatsApp: enabling universal screen-capture block.")
+    }
+}
+
+@Suppress("unused")
+val whatsappEmptyTelephonyIdsPatch = bytecodePatch(
+    name = "WhatsApp: Empty telephony identifiers",
+    description = """
+        Replaces TelephonyManager ID getters (getDeviceId, getImei, getMeid,
+        getSubscriberId, getLine1Number, getSimSerialNumber,
+        getDeviceSoftwareVersion) with empty strings, using the same universal
+        heuristic as 'Empty telephony identifiers'.
+
+        Applies to com.whatsapp only. Heuristic; may break phone-number-based
+        registration or re-verification. Unverified on device.
+    """.trimIndent(),
+    default = false,
+) {
+    compatibleWith(WHATSAPP_COMPATIBILITY)
+    dependsOn(emptyTelephonyIdsPatch)
+
+    execute {
+        logUniversal("WhatsApp: enabling universal telephony ID emptying.")
+    }
+}

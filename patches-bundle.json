@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-07T17:52:48",
-  "description": "v2.2.9 (pre-release, re-cut #3 - supersedes re-cut #2). Re-cut #2 shipped a patch-time crash in 'Bypass native integrity checks' on device (PatchException Collection is empty): the injected invoke-static had six source registers, exceeding the five-register limit of the regular opcode form; it now uses invoke-static/range, mirroring the original wrapper. Everything else from re-cut #2 unchanged - All open issues resolution (#22 AMOLED framework-only attributes + Google Photos fix, #21 Amazon native feed video autoplay patch, #5 Mereframe JVM try/catch bypass + Spoof install source superclass-chain walk). 137 patch entries / 174 appearances. No device verification yet. Latest full release remains v2.2.4; v2.2.8 unchanged.",
-  "download_url": "https://github.com/ineednotitle/Proteus-Patches/releases/download/v2.2.9/patches-2.2.9.mpp",
+  "created_at": "2026-11-08",
+  "description": "v2.2.10 (pre-release). WhatsApp support (17 app-scoped entries): Block analytics & tracking SDKs, Block ads & ad SDKs, Prefer external browser over Custom Tabs, Allow screenshots & screen recording, Remove dangerous permissions, Disable video autoplay (Status), Strip logging (android.util.Log), Block screenshots & screen recording, Empty telephony identifiers, Keep deleted messages, Read receipts (no blue ticks), Typing indicator (hide when typing), Limit usage data, View once media (allow reopen & save), App icon (classic or premium style), Mods settings entry, Mods settings resources. Proton Pass features (7 new app-scoped entries): Remove upgrade nag UI, Disable auto-lock / extend timeout, Disable clipboard auto-clear, Unlock multiple vaults, Force biometric always-on, Unlock password-generator options, Dark web monitoring local-only (cosmetic), plus existing: Allow screenshots, Block telemetry, Unlock Unlimited Plan. Table Notes support (3 app-scoped entries): Block analytics & tracking SDKs, Block ads & ad SDKs, Prefer external browser over Custom Tabs. New universal patch: Block ads & ad SDKs (shared/privacy/BlockAdsSdksPatch.kt). 166 patch entries / 203 appearances.",
+  "download_url": "https://github.com/ineednotitle/Proteus-Patches/releases/download/v2.2.10/patches-2.2.10.mpp",
   "signature_download_url": "",
-  "version": "2.2.9"
+  "version": "2.2.10"
 }
