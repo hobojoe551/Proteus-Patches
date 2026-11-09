@@ -1,3 +1,10 @@
+## [2.3.0](https://github.com/hobojoe551/Proteus-Patches/compare/v2.2.4...v2.3.0) (2026-11-09)
+
+### ✨ New Features
+
+* **amazon:** add Amazon Business compatibility and disable screenshot detection patch ([b60464e](https://github.com/hobojoe551/Proteus-Patches/commit/b60464ec10f74ce579733aebce6d57eb83a531c9))
+* **ci:** add daily auto-updater workflow and add 32.20.0.451 target ([a59d76d](https://github.com/hobojoe551/Proteus-Patches/commit/a59d76dee9b70a90c59cbfdbcba936cd5a120d12))
+
 ## [2.2.2](https://github.com/ineednotitle/Proteus-Patches/compare/v2.2.1...v2.2.2) (2026-11-05)
 
 ### 🐛 Fixes and usability
