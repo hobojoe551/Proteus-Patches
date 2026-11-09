@@ -11,6 +11,14 @@ internal val MShopWebViewClientOnPageFinishedFingerprint = Fingerprint(
     strings = listOf("onPageFinished_withDuration"),
 )
 
+// Early commit hook so sponsored ads are hidden before the page completes loading
+internal val MShopWebViewClientOnPageCommitVisibleFingerprint = Fingerprint(
+    definingClass = "Lcom/amazon/mShop/web/MShopWebViewClient;",
+    name = "onPageCommitVisible",
+    returnType = "V",
+    parameters = listOf("Landroid/webkit/WebView;", "Ljava/lang/String;"),
+)
+
 // All pages (normal + jumpstarted): fires when WebView is assigned to the fragment
 internal val InteractionWebFragmentSetWebViewFingerprint = Fingerprint(
     definingClass = "Lcom/amazon/mShop/web/InteractionWebFragment;",

@@ -2,12 +2,12 @@ group = "app.proteus.patches"
 
 patches {
     about {
-        name = "Proteus Patches"
-        description = "One bundle, patches everywhere. 230+ apps."
-        source = "https://github.com/ineednotitle/proteus-patches"
-        author = "ineednotitle"
-        contact = "https://github.com/ineednotitle"
-        website = "https://morphe.software/add-source?github=ineednotitle/proteus-patches"
+        name = "Proteus Patches (hobojoe551)"
+        description = "One bundle, patches everywhere. 230+ apps (includes Amazon Business + screenshot detection fix)."
+        source = "https://github.com/hobojoe551/Proteus-Patches"
+        author = "hobojoe551"
+        contact = "https://github.com/hobojoe551"
+        website = "https://morphe.software/add-source?github=hobojoe551/Proteus-Patches"
         license = "GPL-3.0-only"
     }
 }

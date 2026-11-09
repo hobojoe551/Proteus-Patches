@@ -1,5 +1,12 @@
 # Proteus Patches
 
+> [!NOTE]
+> **Fork Notice & Credits:**
+> This repository is a personal fork of [ineednotitle/Proteus-Patches](https://github.com/ineednotitle/Proteus-Patches).
+> - Full credit for the Proteus patch framework and base patches goes to **ineednotitle** and upstream contributors.
+> - Amazon Business (`com.amazon.mShop.android.business.shopping`) compatibility and the new **"Disable screenshot detection"** patch were developed and verified by **hobojoe551** paired with **Google Gemini**.
+> - Released under GNU General Public License v3.0.
+
 > *One bundle, patches everywhere. A curated [Morphe](https://github.com/MorpheApp/Morphe) patch suite for Android.*
 
 [![License: GPL-3.0-only](https://img.shields.io/badge/License-GPL--3.0--only-green.svg)](#license)
@@ -11,9 +18,9 @@
 ads, annoyances and risky defaults from popular Android apps — plus a set of
 **universal patches** that apply to any app.
 
-- **[v2.2.9](https://github.com/ineednotitle/Proteus-Patches/releases/tag/v2.2.9)** — pre-release (not the latest; re-cut #3 — `invoke-static/range` fix for the patch-time crash in the Mereframe bypass; re-cut #2 superseded): Reddit save-flow stability hardening. "Remove ads" Layer 3 (comment-banner ad loader kill) rewritten as a constant `return-void` entry — zero registers used; Layer 5 (AdPostSection Compose-render no-op) kept ON by explicit decision, see [docs/REDDIT-STABILITY.md](docs/REDDIT-STABILITY.md); new "Reddit: Diagnostic crash log" patch (default off) writes `Downloads/reddit-crash-*.txt`. Also resolves all open issues: **#22** (Amazon India patching error) — AMOLED resource pass now writes android:-framework attributes only with a hard guard; the Google Photos AMOLED patch carried the same defect and got the identical fix; **#21** (Amazon India video ads) — NEW "Amazon: Stop feed video autoplay" patch (default off) + [docs/AMAZON.md](docs/AMAZON.md) with enable steps and reach limits; **#5** (Mereframe 0.8.4) — "Bypass native integrity checks" rewritten to call the native session JNI inside a real JVM try/catch in the extension, instead of inline smali whose `.catch` was silently dropped; "Spoof install source" Layer 2 now walks the superclass chain (androidx parents like LifecycleProcess); "Spoof app signature" SignatureHookApp presence is now enforced by the bundle verifier. See [docs/MEREFRAME.md](docs/MEREFRAME.md). Unverified on device; 2026.42.0 remains the verified Reddit build; Latest stays v2.2.4
+- **[v2.2.9](https://github.com/hobojoe551/Proteus-Patches/releases/tag/v2.2.9)** — Added Amazon Business compatibility and "Disable screenshot detection" patch alongside all existing Amazon patches.
 
-[![Add to Morphe](https://img.shields.io/badge/Add_to-Morphe-1f6feb?style=for-the-badge)](https://morphe.software/add-source?github=ineednotitle/Proteus-Patches)
+[![Add to Morphe](https://img.shields.io/badge/Add_to-Morphe-1f6feb?style=for-the-badge)](https://morphe.software/add-source?github=hobojoe551/Proteus-Patches&name=Proteus%20Patches%20(hobojoe551))
 
 > Tapping **Add to Morphe** on a device with
 > [Morphe Manager](https://github.com/MorpheApp/Morphe) installed adds this repo
@@ -22,7 +29,7 @@ ads, annoyances and risky defaults from popular Android apps — plus a set of
 Patch source URL (to add manually in Morphe Manager → Sources):
 
 ```text
-https://github.com/ineednotitle/Proteus-Patches
+https://github.com/hobojoe551/Proteus-Patches
 ```
 
 Use the remote repository source for updates. Morphe checks enabled remote sources
