@@ -130,6 +130,7 @@ val AMAZON_BUSINESS_COMPATIBILITY = Compatibility(
         apkFileType = ApkFileType.APKM,
         targets = listOf(
             AppTarget(version = "32.19.0.451", versionCode = 1243250306),
+            AppTarget(version = "32.20.0.451"),
         )
     )
 
